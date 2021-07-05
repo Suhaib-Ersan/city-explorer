@@ -19,3 +19,15 @@ CSS and Design is still haven't been worked on. I'm using VS Code + WSL, then us
 
 ## Credit and Collaborations
 <!-- Give credit (and a link) to other people or resources that helped you build this application. -->
+
+# Features 
+
+Name of feature: get and show locationIQ data
+
+Estimate of time needed to complete: ~1 hour
+
+Start time: mixed
+
+Finish time: mixed
+
+Actual time needed to complete: 2-3+ hours
