@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
+
+body {
+  background-image: url("./assets/horses-barn.jpg");
+  background-color: #cccccc;
+  background-size: cover;
+
+  /* background-position: 50px 50px ; */
+ }
+ .App {
+   height: 100vh;
+ }
+
+.appContainer {
+  margin-left: auto;
+  margin-right: auto;
+  width: 32rem;
+}
+
+.cityInfoContainer {
+  display: flex;
+  justify-content: space-around;
+  margin: 0.7rem 0;
+}
+.cityInfoContainer + p {
+  text-align: center;
+}
+.titleText {
+  display: block;
+  text-align: center;
+
+  color: rgb(243, 120, 49);
+  background: -webkit-linear-gradient(45deg, rgba(143,87,247,1) 20%, rgba(231,35,95,1) 50%, rgba(240,126,87,1) 80%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+
+  font-size: 4rem;
+  font-family: 'Pacifico', cursive;
+  line-height: 1.8;
+}
