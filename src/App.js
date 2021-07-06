@@ -30,8 +30,6 @@ class App extends React.Component {
     console.log("event.target.city.value = ", event.target.city.value);
     // console.log(event.target.value);
 
-
-    
     // this.setState({
     //   pValue: event.target.value,
     //   showP: true,
@@ -50,7 +48,7 @@ class App extends React.Component {
     });
     await this.setState({
       mapUrl: `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&center=${this.state.cityObj.lat},${this.state.cityObj.lon}&zoom=13&size=600x450&format=jpg&maptype=roadmap`,
-    })
+    });
     console.log(`cityObj `, this.state.cityObj);
     console.log(`this.mapUrl = `, this.state.mapUrl);
   };
@@ -60,29 +58,31 @@ class App extends React.Component {
       <div className="App">
         <div className="appContainer">
           <h1 className="titleText">CityExplorer</h1>
-          <Card style={{ width: "32rem" }}>
-            <Card.Body className="mapCardBody">
-              <Form onSubmit={this.selectCity}>
-                <Form.Group className="mb-3" controlId="formBasicPassword">
-                  <Form.Label>Check a city</Form.Label>
-                  <Form.Control type="text" placeholder="City Name" name="city" />
-                </Form.Group>
-                <Button variant="primary" type="submit" block className="submitButton">
-                  Submit
-                </Button>
-              </Form>
-              {
-                <div className="cityInfoContainer">
-                  <div>City Name: {this.state.cityObj.display_name}</div>
-                  <div>Lat: {this.state.cityObj.lat}</div>
-                  <div>Lon: {this.state.cityObj.lon}</div>
-                </div>
-              }
-              {this.state.mapVisible && <img alt="" src={this.mapUrl} />}
-              {/* {this.state.showP && <p>{this.state.pValue}</p>} */}
-              <Card.Text>Check out any country/city/county..etc you want, this will show you the name, latitude and longitude with a static maps image.</Card.Text>
-            </Card.Body>
-            <Card.Img variant="bottom" src={this.state.mapUrl} />
+          <Card className="mapCardBody" style={{ width: "32rem" }}>
+            <div>
+              <Card.Body>
+                <Form onSubmit={this.selectCity}>
+                  <Form.Group className="mb-3" controlId="formBasicPassword">
+                    <Form.Label>Check a city</Form.Label>
+                    <Form.Control type="text" placeholder="City Name" name="city" />
+                  </Form.Group>
+                  <Button variant="primary" type="submit" block className="submitButton">
+                    Submit
+                  </Button>
+                </Form>
+                {
+                  <div className="cityInfoContainer">
+                    <div>City Name: {this.state.cityObj.display_name}</div>
+                    <div>Lat: {this.state.cityObj.lat}</div>
+                    <div>Lon: {this.state.cityObj.lon}</div>
+                  </div>
+                }
+                {this.state.mapVisible && <img alt="" src={this.mapUrl} />}
+                {/* {this.state.showP && <p>{this.state.pValue}</p>} */}
+                <Card.Text>Check out any country/city/county..etc you want, this will show you the name, latitude and longitude with a static maps image.</Card.Text>
+              </Card.Body>
+              <Card.Img variant="bottom" src={this.state.mapUrl} />
+            </div>
           </Card>
         </div>
       </div>
