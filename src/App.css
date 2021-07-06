@@ -39,4 +39,17 @@ body {
   font-size: 4rem;
   font-family: 'Pacifico', cursive;
   line-height: 1.8;
+
+  user-select: none;
+}
+.submitButton {
+  background: -webkit-linear-gradient(60deg, rgba(143,87,247,1) 20%, rgba(231,35,95,1) 50%, rgba(240,126,87,1) 80%);
+  border: none;
+  box-shadow: rgba(250, 26, 101, 0.377) 0 0.1rem 5px;
+  opacity: 0.85;
+
+  transition: 0.2s;
+}
+.submitButton:hover {
+  opacity: 1;
 }
