@@ -59,7 +59,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <div className="appContainer">
-          <h1 className="titleText">City Explorer</h1>
+          <h1 className="titleText">CityExplorer</h1>
           <Card style={{ width: "32rem" }}>
             <Card.Body className="mapCardBody">
               <Form onSubmit={this.selectCity}>
@@ -67,7 +67,7 @@ class App extends React.Component {
                   <Form.Label>Check a city</Form.Label>
                   <Form.Control type="text" placeholder="City Name" name="city" />
                 </Form.Group>
-                <Button variant="primary" type="submit" block>
+                <Button variant="primary" type="submit" block className="submitButton">
                   Submit
                 </Button>
               </Form>
