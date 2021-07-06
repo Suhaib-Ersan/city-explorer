@@ -6,7 +6,7 @@ body {
   background-color: #cccccc;
   background-size: cover;
 
-  /* background-position: 50px 50px ; */
+  background-position: 0 -3rem;
  }
  .App {
    height: 100vh;
@@ -41,6 +41,7 @@ body {
   line-height: 1.8;
 
   user-select: none;
+  opacity: 0.88;
 }
 .submitButton {
   background: -webkit-linear-gradient(60deg, rgba(143,87,247,1) 20%, rgba(231,35,95,1) 50%, rgba(240,126,87,1) 80%);
@@ -52,4 +53,17 @@ body {
 }
 .submitButton:hover {
   opacity: 1;
+}
+.card {
+  opacity: 1;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.096);
+  backdrop-filter: blur(20px);
+
+  border: none;
+  border-radius: 0.7rem;
+  overflow: hidden;
+}
+.card > div {
+  opacity: 0.88;
 }
