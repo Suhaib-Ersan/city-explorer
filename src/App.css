@@ -6,7 +6,7 @@ body {
   background-color: #cccccc;
   background-size: cover;
 
-  /* background-position: 50px 50px ; */
+  background-position: 0 -3rem;
  }
  .App {
    height: 100vh;
