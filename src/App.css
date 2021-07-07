@@ -67,3 +67,15 @@ body {
 .card > div {
   opacity: 0.88;
 }
+.somethingWrongErr {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
+
+  box-shadow: rgba(0, 0, 0, 0.301) 0px 5px 7px;
+}
+.somethingWrongErr .alert-heading {
+  color: rgb(247, 34, 80);
+  font-weight: bolder;
+}
