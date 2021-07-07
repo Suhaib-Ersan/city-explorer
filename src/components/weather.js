@@ -9,11 +9,24 @@ class Weather extends React.Component {
     return (
       <div className="Weather">
         <div>
-          <div>
-            <p>Date: {this.props.date}</p>
+          <h5>Weather</h5>
+          <div className="weatherStuff">
+            {this.props.weatherData.map((ele, idx) => {
+              return (
+                <span key={idx}>
+                  {ele.date}
+                </span>
+              );
+            })}
           </div>
-          <div>
-            <p>desc: {this.props.desc}</p>
+          <div className="weatherStuff">
+            {this.props.weatherData.map((ele, idx) => {
+              return (
+                <span key={idx}>
+                  {ele.desc}
+                </span>
+              );
+            })}
           </div>
         </div>
       </div>

@@ -10,6 +10,8 @@ body {
  }
  .App {
    height: 100vh;
+
+   text-align: center;
  }
 
 .appContainer {
@@ -67,6 +69,13 @@ body {
 .card > div {
   opacity: 0.88;
 }
+.form-control {
+  opacity: 0.8;
+  transition: 0.3s;
+}
+.form-control:focus {
+  opacity: 1;
+}
 .somethingWrongErr {
   position: absolute;
   bottom: 0;
@@ -78,4 +87,21 @@ body {
 .somethingWrongErr .alert-heading {
   color: rgb(247, 34, 80);
   font-weight: bolder;
+}
+
+.Weather {
+  background-color: rgba(255, 255, 255, 0.808);
+  color: black;
+  opacity: 0.88;
+
+  border-radius: 0.7rem;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+}
+.Weather > div > h5 {
+  text-align: center;
+}
+.weatherStuff {
+  display: flex;
+  justify-content: space-around;
 }
