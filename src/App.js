@@ -21,7 +21,11 @@ class App extends React.Component {
 
       showAlert: false,
       AlertDismissibleErrorMessage: "",
-      weatherDataState: [{"date":" ","desc":" "},{"date":" ","desc":" "},{"date":" ","desc":" "}],
+      weatherDataState: [
+        { date: " ", desc: " " },
+        { date: " ", desc: " " },
+        { date: " ", desc: " " },
+      ],
 
       showInfo: false,
     };
@@ -59,19 +63,19 @@ class App extends React.Component {
     // console.log(`cityObj `, this.state.cityObj);
     // console.log(`this.mapUrl = `, this.state.mapUrl);
 
-    let weatherGetUrl= `${process.env.REACT_APP_SITE_URL}/weatherdata?reqCity=${event.target.city.value}`;
+    let weatherGetUrl = `${process.env.REACT_APP_SITE_URL}/weatherdata?reqCity=${event.target.city.value}`;
     let weatherData = await axios.get(weatherGetUrl);
 
-    this.setState ({
-      weatherDataState:weatherData.data,
+    this.setState({
+      weatherDataState: weatherData.data,
       showInfo: true,
-    })
-    console.log({weatherData});
-    console.log("weatherDataState = ",this.state.weatherDataState);
+    });
+    console.log({ weatherData });
+    console.log("weatherDataState = ", this.state.weatherDataState);
   };
 
   AlertDismissibleClose = () => {
-    console.log('showAlert set to false');
+    console.log("showAlert set to false");
     this.setState({
       showAlert: false,
     });
@@ -96,23 +100,16 @@ class App extends React.Component {
                     <Form.Control type="text" placeholder="City Name" name="city" />
                   </Form.Group>
                   <Button variant="primary" type="submit" block className="submitButton">
-                    Submit
+                    Search
                   </Button>
                 </Form>
-                  <div className="cityInfoContainer">
-                    <div>City Name: {this.state.cityObj.display_name}</div>
-                    <div>Lat: {this.state.cityObj.lat}</div>
-                    <div>Lon: {this.state.cityObj.lon}</div>
-                  </div>
-                  
-                  {this.state.showInfo && this.state.weatherDataState.map((ele,idx) => {
-                    return ( 
-                      <Weather 
-                        date={ele.date}
-                        desc={ele.desc}
-                        key={idx}
-                      />
-                    );})}
+                <div className="cityInfoContainer">
+                  <div>City Name: {this.state.cityObj.display_name}</div>
+                  <div>Lat: {this.state.cityObj.lat}</div>
+                  <div>Lon: {this.state.cityObj.lon}</div>
+                </div>
+
+                {this.state.showInfo && <Weather weatherData={this.state.weatherDataState} />}
                 <Card.Text>Check out any country/city/county..etc you want, this will show you the name, latitude and longitude with a static maps image.</Card.Text>
               </Card.Body>
               <Card.Img variant="bottom" src={this.state.mapUrl} />
@@ -127,10 +124,11 @@ class App extends React.Component {
           </p>
           <hr />
           <div className="d-flex justify-content-end">
-            <Button onClick={this.AlertDismissibleClose} variant="outline-danger">Close message</Button>
+            <Button onClick={this.AlertDismissibleClose} variant="outline-danger">
+              Close message
+            </Button>
           </div>
         </Alert>
-
       </div>
     );
   }
