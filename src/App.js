@@ -2,8 +2,9 @@ import React from "react";
 import "./App.css";
 
 import axios from "axios";
-import { Form, Card, Button, Alert } from "react-bootstrap/";
-import Weather from "./components/weather";
+import {Button, Alert } from "react-bootstrap/";
+
+import CityAndWeather from "./components/CityAndWeather";
 
 class App extends React.Component {
   constructor(props) {
@@ -52,20 +53,34 @@ class App extends React.Component {
 
     let resData = await axios.get(locationIqUrl);
     // console.log(`resData.data[0] = `, resData.data[0]);
+    console.log({ resData });
+    if (resData.status != 200) {
+      this.setState({
+        AlertDismissibleErrorMessage: `Website returned a code ${resData.status}, `,
+      });
+      this.AlertDismissibleShow();
+    }
 
     await this.setState({
       cityObj: resData.data[0],
       // mapVisible: true,
     });
     await this.setState({
-      mapUrl: `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&center=${this.state.cityObj.lat},${this.state.cityObj.lon}&zoom=13&size=600x450&format=jpg&maptype=roadmap`,
+      mapUrl: `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&center=${this.state.cityObj.lat},${this.state.cityObj.lon}&zoom=13&size=800x650&format=jpg&maptype=roadmap`,
     });
     // console.log(`cityObj `, this.state.cityObj);
     // console.log(`this.mapUrl = `, this.state.mapUrl);
 
-    let weatherGetUrl = `${process.env.REACT_APP_SITE_URL}/weatherdata?reqCity=${event.target.city.value}`;
-    let weatherData = await axios.get(weatherGetUrl);
-
+    let weatherGetUrl = `${process.env.REACT_APP_SITE_URL}/cities?reqCity=${event.target.city.value}`;
+    let weatherData = axios.get(weatherGetUrl).catch((error) => {
+      console.log("weatherData error " + error);
+      if (error.response.status != 200) {
+        this.setState({
+          AlertDismissibleErrorMessage: `Website returned a code ${resData.status}, `,
+        });
+        this.AlertDismissibleShow();
+      }
+    });
     this.setState({
       weatherDataState: weatherData.data,
       showInfo: true,
@@ -73,7 +88,6 @@ class App extends React.Component {
     console.log({ weatherData });
     console.log("weatherDataState = ", this.state.weatherDataState);
   };
-
   AlertDismissibleClose = () => {
     console.log("showAlert set to false");
     this.setState({
@@ -84,37 +98,16 @@ class App extends React.Component {
     this.setState({
       showAlert: true,
     });
+    console.log(`AlertDismissibleShow was run`);
   };
 
   render() {
     return (
       <div className="App">
+        <h1 className="titleText">CityExplorer</h1>
         <div className="appContainer">
-          <h1 className="titleText">CityExplorer</h1>
-          <Card className="mapCardBody" style={{ width: "32rem" }}>
-            <div>
-              <Card.Body>
-                <Form onSubmit={this.selectCity}>
-                  <Form.Group className="mb-3" controlId="formBasicPassword">
-                    <Form.Label>Check a city</Form.Label>
-                    <Form.Control type="text" placeholder="City Name" name="city" />
-                  </Form.Group>
-                  <Button variant="primary" type="submit" block className="submitButton">
-                    Search
-                  </Button>
-                </Form>
-                <div className="cityInfoContainer">
-                  <div>City Name: {this.state.cityObj.display_name}</div>
-                  <div>Lat: {this.state.cityObj.lat}</div>
-                  <div>Lon: {this.state.cityObj.lon}</div>
-                </div>
-
-                {this.state.showInfo && <Weather weatherData={this.state.weatherDataState} />}
-                <Card.Text>Check out any country/city/county..etc you want, this will show you the name, latitude and longitude with a static maps image.</Card.Text>
-              </Card.Body>
-              <Card.Img variant="bottom" src={this.state.mapUrl} />
-            </div>
-          </Card>
+          <CityAndWeather mapUrl={this.state.mapUrl} weatherData={this.state.weatherDataState} showInfo={this.state.showInfo} cityObj={this.state.cityObj} selectCity={this.state.selectCity} />
+          
         </div>
         <Alert show={this.state.showAlert} variant="danger" className="somethingWrongErr">
           <Alert.Heading>{this.AlertDismissibleErrorMessage}Sorry, something went wrong</Alert.Heading>
