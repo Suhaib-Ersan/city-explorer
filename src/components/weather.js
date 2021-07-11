@@ -1,5 +1,5 @@
 import React from "react";
-
+import WeatherDay from "./WeatherDay";
 class Weather extends React.Component {
   constructor(props) {
     super(props);
@@ -7,27 +7,10 @@ class Weather extends React.Component {
 
   render() {
     return (
-      <div className="Weather">
+      <div className="Weather" style={{ width: "55.45vw", height: "15vh", marginTop: "3vh", position:"absolute",right: "3vh", opacity: "0.75"}}>
         <div>
           <h5>Weather</h5>
-          <div className="weatherStuff">
-            {this.props.weatherData.map((ele, idx) => {
-              return (
-                <span key={idx}>
-                  {ele.date}
-                </span>
-              );
-            })}
-          </div>
-          <div className="weatherStuff">
-            {this.props.weatherData.map((ele, idx) => {
-              return (
-                <span key={idx}>
-                  {ele.desc}
-                </span>
-              );
-            })}
-          </div>
+          <WeatherDay weatherDataState={this.props.weatherDataState}/>
         </div>
       </div>
     );
