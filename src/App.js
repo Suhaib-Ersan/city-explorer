@@ -2,24 +2,18 @@ import React from "react";
 import "./App.css";
 
 import axios from "axios";
-import {Button, Alert } from "react-bootstrap/";
+import { Button, Alert } from "react-bootstrap/";
 
-import CityAndWeather from "./components/CityAndWeather";
+import Main from "./components/Main";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       cityObj: {},
-      // mapVisible: false,
       targetEvent: "",
-
-      // pValue: "",
-      // showP: false,
-
-      mapUrl: `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&center=31.9515694,35.9239625&zoom=13&size=600x450&format=jpg&maptype=roadmap`,
+      mapUrl: `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&center=31.9515694,35.9239625&zoom=13&size=800x750&format=jpg&maptype=roadmap`,
       cityName: "",
-
       showAlert: false,
       AlertDismissibleErrorMessage: "",
       weatherDataState: [
@@ -27,7 +21,7 @@ class App extends React.Component {
         { date: " ", desc: " " },
         { date: " ", desc: " " },
       ],
-
+      moviesDataState: [],
       showInfo: false,
     };
   }
@@ -35,25 +29,13 @@ class App extends React.Component {
   selectCity = async (event) => {
     event.preventDefault();
 
-    // console.log("hello");
-    // console.log("event = ", event);
-    // console.log("event.target = ", event.target);
-    // console.log("event.target.city = ", event.target.city);
-    // console.log("event.target.city.value = ", event.target.city.value);
-    // console.log(event.target.value);
-
-    // this.setState({
-    //   pValue: event.target.value,
-    //   showP: true,
-    // });
     await this.setState({
       cityName: event.target.city.value,
     });
     let locationIqUrl = `https://eu1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&q=${event.target.city.value}&format=json`;
 
     let resData = await axios.get(locationIqUrl);
-    // console.log(`resData.data[0] = `, resData.data[0]);
-    console.log({ resData });
+    // console.log({ resData });
     if (resData.status != 200) {
       this.setState({
         AlertDismissibleErrorMessage: `Website returned a code ${resData.status}, `,
@@ -63,16 +45,16 @@ class App extends React.Component {
 
     await this.setState({
       cityObj: resData.data[0],
-      // mapVisible: true,
     });
     await this.setState({
-      mapUrl: `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&center=${this.state.cityObj.lat},${this.state.cityObj.lon}&zoom=13&size=800x650&format=jpg&maptype=roadmap`,
+      mapUrl: `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&center=${this.state.cityObj.lat},${this.state.cityObj.lon}&zoom=13&size=800x750&format=jpg&maptype=roadmap`,
     });
-    // console.log(`cityObj `, this.state.cityObj);
-    // console.log(`this.mapUrl = `, this.state.mapUrl);
-
-    let weatherGetUrl = `${process.env.REACT_APP_SITE_URL}/cities?reqCity=${event.target.city.value}`;
-    let weatherData = axios.get(weatherGetUrl).catch((error) => {
+    // localhost:3001/cities?cityName=amman
+    let weatherGetUrl = `${process.env.REACT_APP_SITE_URL}/cities?cityName=${event.target.city.value}`;
+    let weatherData;
+    try {
+      weatherData = await axios.get(weatherGetUrl);
+    } catch (error) {
       console.log("weatherData error " + error);
       if (error.response.status != 200) {
         this.setState({
@@ -80,13 +62,28 @@ class App extends React.Component {
         });
         this.AlertDismissibleShow();
       }
-    });
+    }
+    let moviesGetUrl = `${process.env.REACT_APP_SITE_URL}/movies?searchQuery=${event.target.city.value}`;
+    let moviesData;
+    try {
+      moviesData = await axios.get(moviesGetUrl);
+    } catch (error) {
+      console.log("moviesData error " + error);
+      if (error.response.status != 200) {
+        this.setState({
+          AlertDismissibleErrorMessage: `Website returned a code ${resData.status}, `,
+        });
+        this.AlertDismissibleShow();
+      }
+    }
+    console.log({weatherData});
     this.setState({
       weatherDataState: weatherData.data,
+      moviesDataState: moviesData.data,
       showInfo: true,
     });
-    console.log({ weatherData });
-    console.log("weatherDataState = ", this.state.weatherDataState);
+    console.log("showInfo is = ", this.showInfo);
+    // console.log("weatherDataState = ", this.state.weatherDataState);
   };
   AlertDismissibleClose = () => {
     console.log("showAlert set to false");
@@ -105,10 +102,8 @@ class App extends React.Component {
     return (
       <div className="App">
         <h1 className="titleText">CityExplorer</h1>
-        <div className="appContainer">
-          <CityAndWeather mapUrl={this.state.mapUrl} weatherData={this.state.weatherDataState} showInfo={this.state.showInfo} cityObj={this.state.cityObj} selectCity={this.state.selectCity} />
-          
-        </div>
+        <Main mapUrl={this.state.mapUrl} weatherDataState={this.state.weatherDataState} moviesDataState={this.state.moviesDataState}showInfo={this.state.showInfo} cityObj={this.state.cityObj} selectCity={this.selectCity} />
+
         <Alert show={this.state.showAlert} variant="danger" className="somethingWrongErr">
           <Alert.Heading>{this.AlertDismissibleErrorMessage}Sorry, something went wrong</Alert.Heading>
           <p>
