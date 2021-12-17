@@ -68,7 +68,8 @@ class App extends React.Component {
     try {
       moviesData = await axios.get(moviesGetUrl);
     } catch (error) {
-      console.log("moviesData error " + error);
+      console.log("moviesData error ");
+      console.log("~ error", error);
       if (error.response.status != 200) {
         this.setState({
           AlertDismissibleErrorMessage: `Website returned a code ${resData.status}, `,
