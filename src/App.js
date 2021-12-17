@@ -33,10 +33,11 @@ class App extends React.Component {
       cityName: event.target.city.value,
     });
     let locationIqUrl = `https://eu1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&q=${event.target.city.value}&format=json`;
-
-    let resData = await axios.get(locationIqUrl);
-    // console.log({ resData });
-    if (resData.status != 200) {
+    let resData;
+    try {
+    resData = await axios.get(locationIqUrl);
+    } catch(error) {// console.log({ resData });
+      console.log("weatherData error " + error);
       this.setState({
         AlertDismissibleErrorMessage: `Website returned a code ${resData.status}, `,
       });
@@ -56,19 +57,19 @@ class App extends React.Component {
       weatherData = await axios.get(weatherGetUrl);
     } catch (error) {
       console.log("weatherData error " + error);
-      if (error.response.status != 200) {
         this.setState({
           AlertDismissibleErrorMessage: `Website returned a code ${resData.status}, `,
-        });
+        })
         this.AlertDismissibleShow();
       }
-    }
+    
     let moviesGetUrl = `${process.env.REACT_APP_SITE_URL}/movies?searchQuery=${event.target.city.value}`;
     let moviesData;
     try {
       moviesData = await axios.get(moviesGetUrl);
     } catch (error) {
-      console.log("moviesData error " + error);
+      console.log("moviesData error ");
+      console.log("~ error", error);
       if (error.response.status != 200) {
         this.setState({
           AlertDismissibleErrorMessage: `Website returned a code ${resData.status}, `,
